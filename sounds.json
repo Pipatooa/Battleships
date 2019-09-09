@@ -1,0 +1,5 @@
+{
+  "miss": "assets/sounds/fire.wav",
+  "hit": "assets/sounds/hit.wav",
+  "sunk": "assets/sounds/sunk.wav"
+}
