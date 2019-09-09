@@ -1,9 +1,11 @@
 import pygame
+import pyperclip
 
 import states
 import vars
 
 from objects.thread import ThreadedTask
+
 
 class JoinMenu:
     def __init__(self):
@@ -51,7 +53,9 @@ class JoinMenu:
                 else:
                     mods = pygame.key.get_mods()
 
-                    if chr(event.key).isalnum() and chr(event.key).isascii():
+                    if event.key == pygame.K_v and mods & pygame.KMOD_CTRL:
+                        self.ip += pyperclip.paste()
+                    elif chr(event.key).isalnum() and chr(event.key).isascii():
                         self.ip += chr(event.key)
                     elif event.key == pygame.K_PERIOD:
                         self.ip += "."
@@ -59,8 +63,6 @@ class JoinMenu:
                         self.ip += ":"
                     elif event.key == pygame.K_BACKSPACE:
                         self.ip = self.ip[:-1]
-
-
 
         # Fill background
         vars.screen.screen.fill(vars.screen.theme.BACKGROUND_COLOR)

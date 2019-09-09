@@ -1,5 +1,10 @@
 import queue
 import json
+import os
+import sys
+
+# Enables importing of packages from local folder
+sys.path.append(os.path.join(".", "packages"))
 
 import pygame
 

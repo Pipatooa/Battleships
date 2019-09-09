@@ -9,10 +9,10 @@ import vars
 def get_grid_pos(grid_pos, pos):
     """
     Converts pixel coordinates to grid coordinates
-    :param grid_pos: tuple - (int, int)
-    :param pos: tuple - (int, int)
-    :return: tuple - (int, int),        if in grid
-            False                       if outside grid
+    :param grid_pos: (int, int)
+    :param pos: (int, int)
+    :return: (int, int),        if in grid
+             False              if outside grid
     """
 
     grid_x, grid_y = grid_pos

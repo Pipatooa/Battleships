@@ -64,9 +64,9 @@ class HostScreen:
         pygame.draw.rect(vars.screen.screen, vars.screen.theme.BOX_OUTLINE_COLOR, ip_rect,
                          vars.screen.MARGIN_SIZE)
 
-        text = vars.screen.render_text(30, self.ip, vars.screen.theme.TEXT_COLOR)
+        text = vars.screen.render_text(20, self.ip, vars.screen.theme.TEXT_COLOR)
         text_rect = text.get_rect()
-        text_rect.midleft = (vars.screen.MID[0] - vars.screen.BORDER_SIZE * 5 + vars.screen.MARGIN_SIZE * 3,
+        text_rect.midleft = (vars.screen.MID[0] - vars.screen.BORDER_SIZE * 5 + vars.screen.MARGIN_SIZE * 6,
                             vars.screen.MID[1] - vars.screen.BORDER_SIZE * 1.5)
         vars.screen.screen.blit(text, text_rect)
 

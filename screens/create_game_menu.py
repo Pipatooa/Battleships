@@ -54,7 +54,7 @@ class CreateGameMenu:
 
                 self.presets.append(Preset(data))
 
-        self.quickfire = False
+        self.quickfire = True
 
     def run(self):
         # Handle events
