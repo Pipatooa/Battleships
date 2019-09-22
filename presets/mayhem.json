@@ -1,5 +1,6 @@
 {
   "display": "MAYHEM",
   "size": 15,
-  "ships": [2, 2, 2, 3, 3, 3, 4, 4, 5, 5, 7, 9]
+  "ships": [2, 2, 2, 3, 3, 3, 4, 4, 5, 5, 7, 9],
+  "description": "A very large game with lots of ships to play with."
 }

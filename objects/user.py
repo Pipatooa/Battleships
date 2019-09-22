@@ -7,6 +7,3 @@ class User:
 
         # User's board
         self.board = board
-
-        # User's socket (used to keep track of other player's socket)
-        self.socket = socket

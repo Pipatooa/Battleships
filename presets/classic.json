@@ -1,5 +1,6 @@
 {
   "display": "CLASSIC",
   "size": 10,
-  "ships": [2, 3, 3, 4, 5]
+  "ships": [2, 3, 3, 4, 5],
+  "description": "The classic way to play Battleships."
 }

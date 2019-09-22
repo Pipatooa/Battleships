@@ -1,6 +1,9 @@
 import json
+import os
 
 import pygame
+
+import vars
 
 
 class Mixer:
@@ -9,18 +12,22 @@ class Mixer:
     """
 
     def __init__(self):
-        pygame.mixer.init()
+        try:
+            pygame.mixer.init()
+        except pygame.error:
+            self.SOUNDS_ENABLED = False
+            return
 
         self.CHANNEL_NUMBER = 16
-        self.SOUNDS_ENABLED = True
+        self.SOUNDS_ENABLED = vars.options["sounds_enabled"]
 
         pygame.mixer.set_num_channels(self.CHANNEL_NUMBER)
 
-        with open("sounds.json") as file:
-            self.sounds = json.load(file)
+        with open(os.path.join(".", "sound_packs", vars.options["sound_pack"])) as file:
+            self.sounds = {}
 
-        for name, file in self.sounds.items():
-            self.sounds[name] = pygame.mixer.Sound(file)
+            for name, file in json.load(file).items():
+                self.sounds[name] = pygame.mixer.Sound(os.path.join(".", file))
 
         self.next_channel = 0
 

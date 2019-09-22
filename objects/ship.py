@@ -38,35 +38,6 @@ class Ship:
         else:
             return [(pos[0], pos[1] + i) for i in range(self.length)]
 
-    def check_hit(self, pos):
-        """Checks whether the ship has been hit when given hit position as a tuple and updates ship data accordingly
-
-        Returns:
-        0 - Ship not hit
-        1 - Ship hit
-        2 - Ship hit and sunk"""
-
-        # Get coordinates of all cells occupied by ship
-        cells = self.get_coords()
-
-        # Check if pos is a part of the ship
-        if pos not in cells:
-            return 0
-
-        # If part of ship, get index of hit location
-        index = cells.index(pos)
-
-        # Set hit location to be True
-        self.hits[index] = True
-
-        # If all ship locations are hit, set sunk and return 2
-        if all(self.hits):
-            self.sunk = True
-            return 2
-
-        # Otherwise, return hit
-        return 1
-
     def check_collisions(self):
         """
         Checks if the ship is intersecting with another ship
@@ -89,7 +60,7 @@ class Ship:
 
         return not self.collisions
 
-    def set_pos(self, index):
+    def set_initial_pos(self, index):
         """
         Set the initial position of the ship based on its index
         :param index: int
@@ -101,11 +72,28 @@ class Ship:
         self.x_length = self.length
         self.y_length = 1
 
+    def set_pos(self, pos, axis):
+        """
+        Sets the position of the ship
+        """
+
+        self.pos = pos
+        self.axis = axis
+
+        if self.axis == "x":
+            self.x_length = self.length
+            self.y_length = 1
+        else:
+            self.x_length = 1
+            self.y_length = self.length
+
     def move(self, pos):
-        """Move the ship to a different location"""
+        """
+        Move the ship to a different location
+        """
 
         # Check if new location is on board
-        if all(-1 < x < vars.game.BOARD_SIZE and -1 < y < vars.game.BOARD_SIZE for x, y in self.get_coords(pos)):
+        if all(-1 < x < vars.game.board_size and -1 < y < vars.game.board_size for x, y in self.get_coords(pos)):
             self.pos = pos
 
         self.check_collisions()
@@ -122,10 +110,17 @@ class Ship:
             self.axis = "x"
             self.x_length, self.y_length = self.y_length, self.x_length
 
-        if self.axis == "x" and self.pos[0] + self.length > vars.game.BOARD_SIZE:
-            self.pos = (vars.game.BOARD_SIZE - self.length, self.pos[1])
+        if self.axis == "x" and self.pos[0] + self.length > vars.game.board_size:
+            self.pos = (vars.game.board_size - self.length, self.pos[1])
 
-        elif self.axis == "y" and self.pos[1] + self.length > vars.game.BOARD_SIZE:
-            self.pos = (self.pos[0], vars.game.BOARD_SIZE - self.length)
+        elif self.axis == "y" and self.pos[1] + self.length > vars.game.board_size:
+            self.pos = (self.pos[0], vars.game.board_size - self.length)
 
         self.check_collisions()
+
+    def get_position_info(self):
+        """
+        Get a list containing position information about the ship
+        """
+
+        return [*self.pos, self.axis]

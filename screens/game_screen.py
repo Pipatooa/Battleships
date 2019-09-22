@@ -23,7 +23,7 @@ def get_grid_pos(grid_pos, pos):
     y = int((y - grid_y - vars.screen.MARGIN_SIZE) //
             (vars.screen.CELL_SIZE + vars.screen.MARGIN_SIZE))
 
-    if -1 < x < vars.game.BOARD_SIZE and -1 < y < vars.game.BOARD_SIZE:
+    if -1 < x < vars.game.board_size and -1 < y < vars.game.board_size:
         return x, y
 
     return False
@@ -142,7 +142,7 @@ class GameScreen:
     def __init__(self):
         # Set default location for player's ships
         for index, ship in enumerate(vars.game.local_player.board.ships):
-            ship.set_pos(index)
+            ship.set_initial_pos(index)
 
         self.cursor_selected = None
         self.cursor_selected_offset = None
@@ -164,6 +164,13 @@ class GameScreen:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit()
+
+            if event.type == pygame.VIDEORESIZE:
+                vars.screen.rescale_window(event.size, None)
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_F11:
+                    vars.screen.toggle_fullscreen()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # If in ready position
@@ -201,7 +208,9 @@ class GameScreen:
                             vars.screen.BOARD_SIZE + vars.screen.BORDER_SIZE * 4) < event.pos[1] < (
                             vars.screen.BOARD_SIZE + vars.screen.BORDER_SIZE * 5):
 
+                        vars.network.disconnect()
                         vars.game.set_screen("main_menu")
+                        return
 
                 # Check if click corresponds to fire action
                 if vars.state == states.FIRING and vars.substate == states.AWAITING_INPUT and event.button == pygame.BUTTON_LEFT:
@@ -281,11 +290,10 @@ class GameScreen:
             vars.screen.BORDER_SIZE
         )
 
-        pygame.draw.rect(vars.screen.screen, vars.screen.theme.BOX_COLOR, disconnect_rect)
+        pygame.draw.rect(vars.screen.screen, vars.screen.theme.BUTTON_COLOR, disconnect_rect)
         pygame.draw.rect(vars.screen.screen, vars.screen.theme.BOX_OUTLINE_COLOR, disconnect_rect,
                          vars.screen.MARGIN_SIZE)
 
-        # Disconnect text
         text = vars.screen.render_text(30, "DISCONNECT", vars.screen.theme.TEXT_COLOR)
         text_rect = text.get_rect()
         text_rect.center = (vars.screen.MID[0],
@@ -300,29 +308,66 @@ class GameScreen:
             vars.screen.HEIGHT - vars.screen.BOARD_SIZE - vars.screen.BORDER_SIZE * 7
         )
 
-        pygame.draw.rect(vars.screen.screen, vars.screen.theme.BOX_COLOR, info_rect)
+        # Draw info box
+        if vars.state == states.SETUP and vars.substate == states.AWAITING_READY:
+            color = vars.screen.theme.BUTTON_COLOR
+        else:
+            color = vars.screen.theme.BOX_COLOR
+
+        pygame.draw.rect(vars.screen.screen, color, info_rect)
         pygame.draw.rect(vars.screen.screen, vars.screen.theme.BOX_OUTLINE_COLOR, info_rect,
                          vars.screen.MARGIN_SIZE)
 
-        # Draw info box
         if vars.state in [states.FIRING, states.RECEIVING_FIRE]:
+            pygame.draw.rect(vars.screen.screen, vars.screen.theme.BOX_COLOR, info_rect)
+            pygame.draw.rect(vars.screen.screen, vars.screen.theme.BOX_OUTLINE_COLOR, info_rect,
+                             vars.screen.MARGIN_SIZE)
+
             draw_ship_info()
         else:
             if vars.state == states.SETUP and vars.substate == states.AWAITING_READY:
                 text = "READY"
+                text_b = ""
             elif vars.state == states.SETUP and vars.substate == states.AWAITING_START:
                 text = "WAITING"
+                text_b = ""
             elif vars.state == states.GAME_OVER and vars.substate == states.WON:
                 text = "YOU WIN"
+                text_b = ""
             elif vars.state == states.GAME_OVER and vars.substate == states.LOST:
                 text = "YOU LOSE"
+                text_b = ""
+            elif vars.state == states.GAME_OVER and vars.substate == states.LOST_CONNECTION:
+                text = "LOST"
+                text_b = "CONNECTION"
+            elif vars.state == states.GAME_OVER and vars.substate == states.DISCONNECT:
+                text = "OPPONENT"
+                text_b = "DISCONNECTED"
+            else:
+                text = "ERROR"
+                text_b = "INVALID STATE"
 
-            text = vars.screen.render_text(150, text, vars.screen.theme.TEXT_COLOR)
-            text_rect = text.get_rect()
-            text_rect.center = (vars.screen.MID[0],
-                                (vars.screen.HEIGHT + vars.screen.BOARD_SIZE + vars.screen.BORDER_SIZE * 5) * 0.5)
+            if text_b:
+                text = vars.screen.render_text(75, text, vars.screen.theme.TEXT_COLOR)
+                text_rect = text.get_rect()
+                text_rect.center = (vars.screen.MID[0],
+                                    (vars.screen.HEIGHT + vars.screen.BOARD_SIZE + vars.screen.BORDER_SIZE * 3) * 0.5)
 
-            vars.screen.screen.blit(text, text_rect)
+                vars.screen.screen.blit(text, text_rect)
+
+                text = vars.screen.render_text(75, text_b, vars.screen.theme.TEXT_COLOR)
+                text_rect = text.get_rect()
+                text_rect.center = (vars.screen.MID[0],
+                                    (vars.screen.HEIGHT + vars.screen.BOARD_SIZE + vars.screen.BORDER_SIZE * 7) * 0.5)
+
+                vars.screen.screen.blit(text, text_rect)
+            else:
+                text = vars.screen.render_text(150, text, vars.screen.theme.TEXT_COLOR)
+                text_rect = text.get_rect()
+                text_rect.center = (vars.screen.MID[0],
+                                    (vars.screen.HEIGHT + vars.screen.BOARD_SIZE + vars.screen.BORDER_SIZE * 5) * 0.5)
+
+                vars.screen.screen.blit(text, text_rect)
 
         # Draw attack arrows
         if vars.state == states.RECEIVING_FIRE:
@@ -342,7 +387,7 @@ class GameScreen:
 
         if vars.state in [states.RECEIVING_FIRE, states.FIRING]:
             if self.blink_time < vars.screen.FRAMERATE * 0.5:
-                for i in range(vars.game.BOARD_SIZE):
+                for i in range(vars.game.board_size):
                     new_points = [(x + (vars.screen.CELL_SIZE + vars.screen.MARGIN_SIZE) * i, y) for x, y in
                                   points]
 

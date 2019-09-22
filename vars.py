@@ -1,3 +1,5 @@
+options = None
+
 game = None
 network = None
 

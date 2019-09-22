@@ -15,6 +15,13 @@ class MainMenu:
             if event.type == pygame.QUIT:
                 exit()
 
+            if event.type == pygame.VIDEORESIZE:
+                vars.screen.rescale_window(event.size, None)
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_F11:
+                    vars.screen.toggle_fullscreen()
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == pygame.BUTTON_LEFT:
                     # Check if hit create game button
@@ -56,7 +63,7 @@ class MainMenu:
             vars.screen.BORDER_SIZE
         )
 
-        pygame.draw.rect(vars.screen.screen, vars.screen.theme.BOX_COLOR, create_game_rect)
+        pygame.draw.rect(vars.screen.screen, vars.screen.theme.BUTTON_COLOR, create_game_rect)
         pygame.draw.rect(vars.screen.screen, vars.screen.theme.BOX_OUTLINE_COLOR, create_game_rect,
                          vars.screen.MARGIN_SIZE)
 
@@ -74,7 +81,7 @@ class MainMenu:
             vars.screen.BORDER_SIZE
         )
 
-        pygame.draw.rect(vars.screen.screen, vars.screen.theme.BOX_COLOR, join_rect)
+        pygame.draw.rect(vars.screen.screen, vars.screen.theme.BUTTON_COLOR, join_rect)
         pygame.draw.rect(vars.screen.screen, vars.screen.theme.BOX_OUTLINE_COLOR, join_rect,
                          vars.screen.MARGIN_SIZE)
 
@@ -92,7 +99,7 @@ class MainMenu:
             vars.screen.BORDER_SIZE
         )
 
-        pygame.draw.rect(vars.screen.screen, vars.screen.theme.BOX_COLOR, quit_rect)
+        pygame.draw.rect(vars.screen.screen, vars.screen.theme.BUTTON_COLOR, quit_rect)
         pygame.draw.rect(vars.screen.screen, vars.screen.theme.BOX_OUTLINE_COLOR, quit_rect,
                          vars.screen.MARGIN_SIZE)
 

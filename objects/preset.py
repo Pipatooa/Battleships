@@ -5,3 +5,4 @@ class Preset:
         self.NAME = json["display"]
         self.BOARD_SIZE = json["size"]
         self.SHIPS = json["ships"]
+        self.DESCRIPTION = json["description"]
