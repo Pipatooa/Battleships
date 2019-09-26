@@ -53,6 +53,7 @@ class Network:
                 vars.substate = states.AWAITING_READY
 
                 vars.game.set_screen("game_screen")
+                vars.mixer.play_sound("game_setup")
 
             elif event["event"] == "game_started":
                 if event["turn"]:
@@ -61,6 +62,8 @@ class Network:
                 else:
                     vars.state = states.RECEIVING_FIRE
                     vars.substate = states.AWAITING_INPUT
+
+                vars.mixer.play_sound("game_started")
 
             elif event["event"] == "received_fire":
                 # Update board and player info
@@ -99,8 +102,10 @@ class Network:
                     vars.substate = states.DISCONNECT
                 elif event["winner"]:
                     vars.substate = states.WON
+                    vars.mixer.play_sound("game_won")
                 else:
                     vars.substate = states.LOST
+                    vars.mixer.play_sound("game_lost")
 
                 self.connected = False
 
@@ -196,6 +201,7 @@ class Network:
 
         # Set screen and states
         vars.game.set_screen("game_screen")
+        vars.mixer.play_sound("game_setup")
 
         vars.state = states.SETUP
         vars.substate = states.AWAITING_READY

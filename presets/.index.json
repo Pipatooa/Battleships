@@ -2,7 +2,9 @@
   "files": [
     "classic.json",
     "russian.json",
+    "clutter.json",
     "mayhem.json",
-    "tiny.json"
+    "tiny.json",
+    "calm.json"
   ]
 }

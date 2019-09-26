@@ -27,7 +27,8 @@ class Mixer:
             self.sounds = {}
 
             for name, file in json.load(file).items():
-                self.sounds[name] = pygame.mixer.Sound(os.path.join(".", file))
+                if file is not None:
+                    self.sounds[name] = pygame.mixer.Sound(os.path.join(".", file))
 
         self.next_channel = 0
 
@@ -39,4 +40,5 @@ class Mixer:
         if self.next_channel >= self.CHANNEL_NUMBER:
             self.next_channel = 0
 
-        pygame.mixer.Channel(self.next_channel).play(self.sounds[name])
+        if name in self.sounds:
+            pygame.mixer.Channel(self.next_channel).play(self.sounds[name])

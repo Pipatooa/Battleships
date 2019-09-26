@@ -1,0 +1,6 @@
+{
+  "display": "CALM",
+  "size": 7,
+  "ships": [1, 1, 2, 3, 3, 4],
+  "description": "A smaller board with fewer ships."
+}

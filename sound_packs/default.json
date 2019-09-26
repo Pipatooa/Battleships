@@ -1,5 +1,9 @@
 {
-  "miss": "assets/sounds/default/fire.wav",
+  "game_setup": null,
+  "game_started": null,
+  "game_won": null,
+  "game_lose": null,
+  "miss": "assets/sounds/default/miss.wav",
   "hit": "assets/sounds/default/hit.wav",
   "sunk": "assets/sounds/default/sunk.wav"
 }
