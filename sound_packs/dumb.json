@@ -1,5 +1,9 @@
 {
-  "miss": "assets/sounds/dumb/fire.wav",
+  "game_setup": "assets/sounds/dumb/game_setup.wav",
+  "game_started": "assets/sounds/dumb/game_started.wav",
+  "game_won": "assets/sounds/dumb/game_won.wav",
+  "game_lose": "assets/sounds/dumb/game_lose.wav",
+  "miss": "assets/sounds/dumb/miss.wav",
   "hit": "assets/sounds/dumb/hit.wav",
   "sunk": "assets/sounds/dumb/sunk.wav"
 }

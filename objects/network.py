@@ -1,5 +1,7 @@
 import secrets
+import socket
 import time
+import urllib.parse
 
 import requests
 
@@ -21,6 +23,11 @@ class Network:
         self.token = secrets.token_hex(32)
         self.connected = False
 
+        # Convert url to use ip to avoid long DNS lookup times
+        parsed_url = urllib.parse.urlparse(vars.options["server_address"])
+        resolved_ip = socket.gethostbyname(parsed_url.netloc)
+        self.server_address = "{0}://{1}/{2}".format(parsed_url.scheme, resolved_ip, parsed_url.path)
+
     def event_listen(self, game_id):
         """
         Listens for game events
@@ -31,7 +38,7 @@ class Network:
 
             # Query server
             try:
-                event = self.session.post(vars.options["server_address"], json={
+                event = self.session.post(self.server_address, json={
                     "request": "get_event",
                     "token": self.token,
                     "id": vars.game.id
@@ -119,7 +126,7 @@ class Network:
 
             # Query server
             try:
-                self.session.post(vars.options["server_address"], json={
+                self.session.post(self.server_address, json={
                     "request": "keep_alive",
                     "token": self.token,
                     "id": vars.game.id
@@ -141,7 +148,7 @@ class Network:
 
         # Query server
         try:
-            game_data = self.session.post(vars.options["server_address"], json={
+            game_data = self.session.post(self.server_address, json={
                 "request": "host_game",
                 "token": self.token,
                 "board_size": board_size,
@@ -177,7 +184,7 @@ class Network:
 
         # Query server
         try:
-            game_data = self.session.post(vars.options["server_address"], json={
+            game_data = self.session.post(self.server_address, json={
                 "request": "join_game",
                 "token": self.token,
                 "id": id
@@ -226,7 +233,7 @@ class Network:
 
         # Query server
         try:
-            response = self.session.post(vars.options["server_address"], json={
+            response = self.session.post(self.server_address, json={
                 "token": self.token,
                 "request": "set_ready",
                 "id": vars.game.id,
@@ -252,7 +259,7 @@ class Network:
 
         # Query server
         try:
-            response = self.session.post(vars.options["server_address"], json={
+            response = self.session.post(self.server_address, json={
                 "token": self.token,
                 "request": "fire",
                 "id": vars.game.id,
