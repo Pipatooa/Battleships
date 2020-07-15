@@ -1,11 +1,6 @@
 import json
 import os
 import queue
-import sys
-
-# Enables importing of packages from local folder
-# Slower, but allows running without install
-sys.path.append(os.path.abspath(os.path.join(".", "packages")))
 
 import pygame
 

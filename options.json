@@ -1,9 +1,9 @@
 {
   "server_address": "https://www.pipatooa.co.uk/api/battleships",
   "fullscreen": true,
-  "framerate": 30,
-  "resolution_x": 640,
-  "resolution_y": 480,
+  "framerate": 60,
+  "resolution_x": 1920,
+  "resolution_y": 1080,
   "sounds_enabled": true,
   "theme": "default.json",
   "sound_pack": "default.json"
