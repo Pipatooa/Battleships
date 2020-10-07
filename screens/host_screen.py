@@ -1,5 +1,3 @@
-import socket
-
 import pygame
 
 import vars
@@ -74,7 +72,7 @@ class HostScreen:
         text = vars.screen.render_text(20, str(vars.game.id), vars.screen.theme.TEXT_COLOR)
         text_rect = text.get_rect()
         text_rect.midleft = (vars.screen.MID[0] - vars.screen.BORDER_SIZE * 5 + vars.screen.MARGIN_SIZE * 6,
-                            vars.screen.MID[1] - vars.screen.BORDER_SIZE * 1.5)
+                             vars.screen.MID[1] - vars.screen.BORDER_SIZE * 1.5)
         vars.screen.screen.blit(text, text_rect)
 
         # Cancel button
@@ -92,7 +90,7 @@ class HostScreen:
         text = vars.screen.render_text(30, "CANCEL", vars.screen.theme.TEXT_COLOR)
         text_rect = text.get_rect()
         text_rect.center = (vars.screen.MID[0],
-                             vars.screen.MID[1] + vars.screen.BORDER_SIZE * 1.5)
+                            vars.screen.MID[1] + vars.screen.BORDER_SIZE * 1.5)
         vars.screen.screen.blit(text, text_rect)
 
         # Update display

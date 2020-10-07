@@ -1,7 +1,6 @@
+import json
 import secrets
-import socket
 import time
-import urllib.parse
 
 import requests
 
@@ -28,7 +27,6 @@ class Network:
         Listens for game events
         """
 
-        global vars
         while self.connected == game_id:
 
             # Query server
@@ -38,6 +36,12 @@ class Network:
                     "token": self.token,
                     "id": vars.game.id
                 }).json()
+            except json.decoder.JSONDecodeError:
+                if self.connected == game_id:
+                    vars.state = states.GAME_OVER
+                    vars.substate = states.LOST_CONNECTION
+
+                return
             except requests.exceptions.ConnectionError:
                 if self.connected == game_id:
                     vars.state = states.GAME_OVER
@@ -116,7 +120,6 @@ class Network:
         Keeps game connection alive
         """
 
-        global vars
         while self.connected == game_id:
 
             # Query server

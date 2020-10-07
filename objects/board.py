@@ -83,9 +83,9 @@ class Board:
 
             # Determine ship position in pixels
             x_location = pos[0] + vars.screen.MARGIN_SIZE + (vars.screen.CELL_SIZE + vars.screen.MARGIN_SIZE) * \
-                         ship.pos[0]
+                ship.pos[0]
             y_location = pos[1] + vars.screen.MARGIN_SIZE + (vars.screen.CELL_SIZE + vars.screen.MARGIN_SIZE) * \
-                         ship.pos[1]
+                ship.pos[1]
 
             width = (vars.screen.CELL_SIZE + vars.screen.MARGIN_SIZE) * ship.x_length - vars.screen.MARGIN_SIZE
             height = (vars.screen.CELL_SIZE + vars.screen.MARGIN_SIZE) * ship.y_length - vars.screen.MARGIN_SIZE
@@ -102,9 +102,6 @@ class Board:
         # Draw dots to the screen
         for x, column in enumerate(self.board):
             for y, cell in enumerate(column):
-
-                # By default, no dot should be displayed
-                dot = None
 
                 # If miss, set themed dot
                 if cell == 1:

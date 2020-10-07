@@ -26,9 +26,9 @@ class Mixer:
         with open(os.path.join(".", "sound_packs", vars.options["sound_pack"])) as file:
             self.sounds = {}
 
-            for name, file in json.load(file).items():
-                if file is not None:
-                    self.sounds[name] = pygame.mixer.Sound(os.path.join(".", file))
+            for name, file2 in json.load(file).items():
+                if file2 is not None:
+                    self.sounds[name] = pygame.mixer.Sound(os.path.join(".", file2))
 
         self.next_channel = 0
 

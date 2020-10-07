@@ -53,10 +53,11 @@ def draw_ship_info():
     ship_indicator_size = min(ship_indicator_size_a, ship_indicator_size_b)
 
     # Draw title text
-    text = vars.screen.render_text(ship_indicator_size * 0.9 / vars.screen.FONT_SCALE, "SHIPS", vars.screen.theme.TEXT_COLOR)
+    text = vars.screen.render_text(ship_indicator_size * 0.9 / vars.screen.FONT_SCALE, "SHIPS",
+                                   vars.screen.theme.TEXT_COLOR)
     text_rect = text.get_rect()
     text_rect.midtop = (vars.screen.MID[0],
-                          vars.screen.BOARD_SIZE + vars.screen.BORDER_SIZE * 6 + vars.screen.MARGIN_SIZE * 3)
+                        vars.screen.BOARD_SIZE + vars.screen.BORDER_SIZE * 6 + vars.screen.MARGIN_SIZE * 3)
     vars.screen.screen.blit(text, text_rect)
 
     # Draw ship indicators
@@ -69,7 +70,8 @@ def draw_ship_info():
         y_pos = vars.screen.HEIGHT - vars.screen.BORDER_SIZE - (ship_indicator_size + spacing) * (index + 1)
 
         # Ship length text
-        text = vars.screen.render_text(ship_indicator_size * 0.5 / vars.screen.FONT_SCALE, "-%s-" % ship_length, vars.screen.theme.TEXT_COLOR)
+        text = vars.screen.render_text(ship_indicator_size * 0.5 / vars.screen.FONT_SCALE, "-%s-" % ship_length,
+                                       vars.screen.theme.TEXT_COLOR)
         text_rect = text.get_rect()
         text_rect.center = (vars.screen.MID[0],
                             y_pos + ship_indicator_size * 0.5)
@@ -84,10 +86,11 @@ def draw_ship_info():
         ))
 
         # Local alive text
-        text = vars.screen.render_text(ship_indicator_size * 0.5 / vars.screen.FONT_SCALE, str(local_alive), vars.screen.theme.TEXT_COLOR)
+        text = vars.screen.render_text(ship_indicator_size * 0.5 / vars.screen.FONT_SCALE, str(local_alive),
+                                       vars.screen.theme.TEXT_COLOR)
         text_rect = text.get_rect()
         text_rect.center = (vars.screen.MID[0] - vars.screen.BORDER_SIZE * 0.5 - ship_indicator_size * 0.5,
-                              y_pos + ship_indicator_size * 0.5)
+                            y_pos + ship_indicator_size * 0.5)
         vars.screen.screen.blit(text, text_rect)
 
         # Local sunk indicator
@@ -99,11 +102,12 @@ def draw_ship_info():
         ))
 
         # Local sunk text
-        text = vars.screen.render_text(ship_indicator_size * 0.5 / vars.screen.FONT_SCALE, str(local_sunk), vars.screen.theme.TEXT_COLOR)
+        text = vars.screen.render_text(ship_indicator_size * 0.5 / vars.screen.FONT_SCALE, str(local_sunk),
+                                       vars.screen.theme.TEXT_COLOR)
         text_rect = text.get_rect()
         text_rect.center = (vars.screen.MID[0] - vars.screen.BORDER_SIZE * 0.5 - ship_indicator_size * 0.5
-                              - x_unit - spacing,
-                              y_pos + ship_indicator_size * 0.5)
+                            - x_unit - spacing,
+                            y_pos + ship_indicator_size * 0.5)
         vars.screen.screen.blit(text, text_rect)
 
         # Other alive indicator
@@ -115,10 +119,11 @@ def draw_ship_info():
         ))
 
         # Other alive text
-        text = vars.screen.render_text(ship_indicator_size * 0.5 / vars.screen.FONT_SCALE, str(other_alive), vars.screen.theme.TEXT_COLOR)
+        text = vars.screen.render_text(ship_indicator_size * 0.5 / vars.screen.FONT_SCALE, str(other_alive),
+                                       vars.screen.theme.TEXT_COLOR)
         text_rect = text.get_rect()
         text_rect.center = (vars.screen.MID[0] + vars.screen.BORDER_SIZE * 0.5 + ship_indicator_size * 0.5,
-                              y_pos + ship_indicator_size * 0.5)
+                            y_pos + ship_indicator_size * 0.5)
         vars.screen.screen.blit(text, text_rect)
 
         # Other sunk indicator
@@ -130,11 +135,12 @@ def draw_ship_info():
         ))
 
         # Other sunk text
-        text = vars.screen.render_text(ship_indicator_size * 0.5 / vars.screen.FONT_SCALE, str(other_sunk), vars.screen.theme.TEXT_COLOR)
+        text = vars.screen.render_text(ship_indicator_size * 0.5 / vars.screen.FONT_SCALE, str(other_sunk),
+                                       vars.screen.theme.TEXT_COLOR)
         text_rect = text.get_rect()
         text_rect.center = (vars.screen.MID[0] + vars.screen.BORDER_SIZE * 0.5 + ship_indicator_size * 0.5
-                             + x_unit + spacing,
-                             y_pos + ship_indicator_size * 0.5)
+                            + x_unit + spacing,
+                            y_pos + ship_indicator_size * 0.5)
         vars.screen.screen.blit(text, text_rect)
 
 
@@ -213,7 +219,8 @@ class GameScreen:
                         return
 
                 # Check if click corresponds to fire action
-                if vars.state == states.FIRING and vars.substate == states.AWAITING_INPUT and event.button == pygame.BUTTON_LEFT:
+                if vars.state == states.FIRING and vars.substate == states.AWAITING_INPUT \
+                        and event.button == pygame.BUTTON_LEFT:
                     grid_pos = get_grid_pos(self.OTHER_BOARD_POS, event.pos)
 
                     if grid_pos:

@@ -43,6 +43,7 @@ class Screen:
         """
         Rescale the window to size
         :param size: (int width, int height)
+        :param fullscreen: bool
         """
 
         if fullscreen is None:
@@ -92,7 +93,8 @@ class Screen:
 
         self.LAST_BOARD_SIZE = board_size
 
-        self.CELL_SIZE = int(((vars.screen.UNIT - vars.screen.BORDER_SIZE * 3) / 2 - (board_size + 1) * self.MARGIN_SIZE) / board_size)
+        self.CELL_SIZE = int(((vars.screen.UNIT - vars.screen.BORDER_SIZE * 3)
+                              / 2 - (board_size + 1) * self.MARGIN_SIZE) / board_size)
         self.CELL_DOT_SIZE = int(self.CELL_SIZE / 4)
 
         self.BOARD_SIZE = self.CELL_SIZE * board_size + self.MARGIN_SIZE * (board_size + 1)

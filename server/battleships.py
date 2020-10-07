@@ -1,6 +1,6 @@
+import json
 import queue
 import random
-import multiprocessing
 import time
 import threading
 import types
@@ -518,11 +518,13 @@ def compare_dicts(a, b):
         return False
 
     for k, v in a.items():
-        if type(v) is types.LambdaType:
+        if type(v).isInstance(types.LambdaType):
             try:
                 if not v(b[k]):
                     return False
-            except:
+            except KeyError:
+                return False
+            except ValueError:
                 return False
 
         elif type(b[k]) is not v:
@@ -539,7 +541,7 @@ def handle_request(request):
     # Unpack request
     try:
         data = request.json
-    except:
+    except json.decoder.JSONDecodeError:
         return {
             "valid": False
         }
@@ -730,8 +732,7 @@ def handle_request(request):
             }
 
         # Set the player as being ready
-        reply = game.set_ready(token,
-                              data["ship_data"])
+        reply = game.set_ready(token, data["ship_data"])
 
         lock.release()
         return reply
@@ -846,11 +847,16 @@ def handle_request(request):
 
 def process_timeouts():
     def delete_game(id):
+        """Deletes a game given an id"""
+
         lock.acquire()
 
         # Close event queues for game
-        games[id].user_a.event_queue.close()
-        games[id].user_b.event_queue.close()
+        try:
+            games[id].user_a.event_queue.close()
+            games[id].user_b.event_queue.close()
+        except KeyError:
+            return
 
         lock.release()
 
@@ -860,10 +866,14 @@ def process_timeouts():
         lock.acquire()
 
         # Remove game from games list
-        games.pop(id)
+        try:
+            games.pop(id)
+        except KeyError:
+            pass
 
         lock.release()
 
+    # Main loop
     while True:
         lock.acquire()
 
